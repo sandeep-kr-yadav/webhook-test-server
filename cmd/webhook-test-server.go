@@ -167,7 +167,25 @@ func handleUI(w http.ResponseWriter, r *http.Request) {
 	log.Printf("UI request received: %s", r.URL.Path)
 	if r.URL.Path == "/" {
 		log.Printf("Serving webhook-ui.html")
-		http.ServeFile(w, r, "static/webhook-ui.html")
+		// Try multiple possible paths for the static file
+		possiblePaths := []string{
+			"static/webhook-ui.html",
+			"./static/webhook-ui.html",
+			"/app/static/webhook-ui.html",
+		}
+
+		for _, path := range possiblePaths {
+			if _, err := os.Stat(path); err == nil {
+				log.Printf("Found file at: %s", path)
+				http.ServeFile(w, r, path)
+				return
+			} else {
+				log.Printf("File not found at: %s (error: %v)", path, err)
+			}
+		}
+
+		log.Printf("Could not find webhook-ui.html in any expected location")
+		http.Error(w, "UI file not found", http.StatusInternalServerError)
 		return
 	}
 	log.Printf("Path not found: %s", r.URL.Path)
