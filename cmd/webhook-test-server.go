@@ -151,16 +151,20 @@ func main() {
 	log.Printf("Web UI: http://0.0.0.0%s", port)
 	log.Printf("Health check: http://0.0.0.0%s/health", port)
 
+	log.Printf("Server listening on %s", port)
 	if err := http.ListenAndServe(port, mux); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func handleUI(w http.ResponseWriter, r *http.Request) {
+	log.Printf("UI request received: %s", r.URL.Path)
 	if r.URL.Path == "/" {
+		log.Printf("Serving webhook-ui.html")
 		http.ServeFile(w, r, "static/webhook-ui.html")
 		return
 	}
+	log.Printf("Path not found: %s", r.URL.Path)
 	http.NotFound(w, r)
 }
 

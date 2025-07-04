@@ -23,7 +23,7 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 
 # Set the working directory
-WORKDIR /root/
+WORKDIR /app/
 
 # Copy the binary from the builder stage
 COPY --from=builder /app/webhook-server .
