@@ -130,7 +130,8 @@ func main() {
 	// Create a new mux to handle routing properly
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", handleUI)
+	mux.HandleFunc("/", handleRoot)
+	mux.HandleFunc("/ui", handleUI)
 	mux.HandleFunc("/webhook", handleWebhook)
 	mux.HandleFunc("/webhook/thoughtspot", handleThoughtSpotWebhook)
 	mux.HandleFunc("/health", handleHealth)
@@ -173,7 +174,7 @@ func main() {
 
 func handleUI(w http.ResponseWriter, r *http.Request) {
 	log.Printf("UI request received: %s", r.URL.Path)
-	if r.URL.Path == "/" {
+	if r.URL.Path == "/ui" {
 		log.Printf("Serving webhook-ui.html")
 		// Try multiple possible paths for the static file
 		possiblePaths := []string{
@@ -839,4 +840,14 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("X-Go-App", "webhook-server")
 	w.Write([]byte("PONG - Your Go app is responding! This proves Railway is routing to your container."))
+}
+
+func handleRoot(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Root endpoint request received: %s", r.URL.Path)
+	if r.URL.Path == "/" {
+		// Redirect to the UI
+		http.Redirect(w, r, "/ui", http.StatusFound)
+		return
+	}
+	http.NotFound(w, r)
 }
