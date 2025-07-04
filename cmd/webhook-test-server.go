@@ -136,6 +136,7 @@ func main() {
 	mux.HandleFunc("/webhook/thoughtspot", handleThoughtSpotWebhook)
 	mux.HandleFunc("/health", handleHealth)
 	mux.HandleFunc("/api/requests", handleAPIRequests)
+	mux.HandleFunc("/api/clear", handleClearRequests)
 	mux.HandleFunc("/ws", handleWebSocket)
 	mux.HandleFunc("/download/", handleFileDownload)
 	mux.HandleFunc("/test", handleTest)
@@ -307,6 +308,48 @@ func handleAPIRequests(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+func handleClearRequests(w http.ResponseWriter, r *http.Request) {
+	// Add CORS headers
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+	// Handle preflight OPTIONS request
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	// Only allow DELETE method
+	if r.Method != "DELETE" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Clear all requests from memory
+	requestsMux.Lock()
+	requests = []WebhookRequest{}
+	requestsMux.Unlock()
+
+	// Clear file storage as well
+	fileStorageMux.Lock()
+	fileStorage = make(map[string][]byte)
+	fileStorageMux.Unlock()
+
+	log.Printf("Clearing all requests from server memory")
+
+	// Send success response
+	response := map[string]interface{}{
+		"status":  "success",
+		"message": "All requests cleared successfully",
+		"count":   0,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
 }
 

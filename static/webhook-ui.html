@@ -748,14 +748,32 @@
 
         function deleteAllRequests() {
             if (confirm('Are you sure you want to delete all requests? This action cannot be undone.')) {
-                // Clear the requests array and stats
-                requests = [];
-                stats = { total: 0, get: 0, post: 0, multipart: 0 };
-                updateRequestsDisplay();
-                updateStats();
-                
-                // TODO: Add server-side deletion logic here
-                console.log('Delete All button clicked - server-side deletion logic to be implemented');
+                // Call server endpoint to clear all requests
+                fetch('/api/clear', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to clear requests');
+                    }
+                })
+                .then(data => {
+                    console.log('Server response:', data);
+                    // Clear the requests array and stats
+                    requests = [];
+                    stats = { total: 0, get: 0, post: 0, multipart: 0 };
+                    updateRequestsDisplay();
+                    updateStats();
+                })
+                .catch(error => {
+                    console.error('Error clearing requests:', error);
+                    alert('Failed to clear requests. Please try again.');
+                });
             }
         }
 
