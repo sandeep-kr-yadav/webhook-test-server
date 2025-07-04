@@ -31,9 +31,6 @@ COPY --from=builder /app/webhook-server .
 # Copy static files
 COPY --from=builder /app/static ./static
 
-# Copy test files (optional, for reference)
-COPY --from=builder /app/test-files ./test-files
-
 # Expose port 8080
 EXPOSE 8080
 
