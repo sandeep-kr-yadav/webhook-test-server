@@ -461,6 +461,17 @@ func addRequest(request WebhookRequest) {
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
+	// CORS headers
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	// Handle preflight
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	requestID := fmt.Sprintf("req-%d", time.Now().UnixNano())
 
 	log.Printf("=== Webhook Request Received ===")
@@ -492,9 +503,6 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 
 	// Handle multipart form data
 	contentType := r.Header.Get("Content-Type")
-	log.Printf("Content-Type check: '%s' (length: %d)", contentType, len(contentType))
-	log.Printf("Content-Type prefix check: '%s' == 'multipart/form-data'", contentType[:20])
-
 	if contentType != "" && len(contentType) > 20 && strings.HasPrefix(contentType, "multipart/form-data") {
 		log.Printf("Processing multipart/form-data request...")
 		log.Printf("Content-Type header: %s", r.Header.Get("Content-Type"))
