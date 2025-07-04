@@ -146,7 +146,13 @@ func main() {
 	mux.HandleFunc("/ws", handleWebSocket)
 	mux.HandleFunc("/download/", handleFileDownload)
 
-	port := ":8080"
+	// Get port from environment variable or default to 8080
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	port = ":" + port
+
 	log.Printf("Starting webhook test server on port %s", port)
 	log.Printf("Webhook endpoint: http://localhost%s/webhook", port)
 	log.Printf("ThoughtSpot webhook endpoint: http://localhost%s/webhook/thoughtspot", port)

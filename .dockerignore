@@ -1,0 +1,27 @@
+# Git files
+.git
+.gitignore
+
+# Logs
+*.log
+webhook-server.log
+
+# Documentation
+README.md
+QUICKSTART.md
+docs/
+
+# Test files (we'll copy them separately if needed)
+test-files/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp 
