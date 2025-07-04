@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Test Server - Request Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dc3545;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.connected {
+            background: #28a745;
+        }
+
+        .requests-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .request-item {
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.3s ease;
+        }
+
+        .request-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .request-header {
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .request-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .method-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .method-get { background: #d4edda; color: #155724; }
+        .method-post { background: #d1ecf1; color: #0c5460; }
+        .method-put { background: #fff3cd; color: #856404; }
+        .method-delete { background: #f8d7da; color: #721c24; }
+
+        .request-details {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .request-time {
+            color: #6c757d;
+        }
+
+        .request-content {
+            display: none;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .headers-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .headers-table th,
+        .headers-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .headers-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .headers-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .json-viewer {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .file-info {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .file-info:last-child {
+            margin-bottom: 0;
+        }
+
+        .file-info h5 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .file-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .file-detail {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .request-content {
+            display: none;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .headers-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .headers-table th,
+        .headers-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .headers-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .headers-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .json-viewer {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .file-info {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .file-info:last-child {
+            margin-bottom: 0;
+        }
+
+        .file-info h5 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .file-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .file-detail {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .copy-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #5a6268;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .request-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        .files-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .file-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .file-item .file-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .file-item .file-info strong {
+            color: #2d3748;
+            font-size: 1rem;
+        }
+
+        .file-type {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .file-size {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        .download-btn {
+            background: #4299e1;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #3182ce;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Webhook Test Environment</h1>
+            <p>Real-time webhook request monitor and testing interface</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-requests">0</div>
+                <div class="stat-label">Total Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="get-requests">0</div>
+                <div class="stat-label">GET Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="post-requests">0</div>
+                <div class="stat-label">POST Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="multipart-requests">0</div>
+                <div class="stat-label">Multipart Requests</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="status-indicator">
+                <div class="status-dot" id="status-dot"></div>
+                <span id="status-text">Connecting...</span>
+            </div>
+            <a href="http://localhost:8080/webhook" target="_blank" class="btn btn-primary">Webhook Endpoint</a>
+            <a href="http://localhost:8080/webhook/thoughtspot" target="_blank" class="btn btn-secondary">ThoughtSpot Endpoint</a>
+            <a href="http://localhost:8080/health" target="_blank" class="btn btn-success">Health Check</a>
+            <button class="btn btn-danger" onclick="clearRequests()">Clear All</button>
+        </div>
+
+        <div class="requests-container" id="requests-container">
+            <div class="empty-state">
+                <h3>No requests yet</h3>
+                <p>Send a request to the webhook endpoints to see them appear here</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let requests = [];
+        let stats = {
+            total: 0,
+            get: 0,
+            post: 0,
+            multipart: 0
+        };
+        let ws = null;
+
+        // WebSocket connection
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws`;
+            console.log('Attempting to connect to WebSocket:', wsUrl);
+            
+            try {
+                ws = new WebSocket(wsUrl);
+                
+                ws.onopen = function() {
+                    console.log('WebSocket connected successfully');
+                    document.getElementById('status-dot').classList.add('connected');
+                    document.getElementById('status-text').textContent = 'Connected';
+                };
+                
+                ws.onmessage = function(event) {
+                    console.log('WebSocket message received:', event.data);
+                    try {
+                        const request = JSON.parse(event.data);
+                        addRequest(request);
+                    } catch (error) {
+                        console.error('Error parsing WebSocket message:', error);
+                    }
+                };
+                
+                ws.onclose = function(event) {
+                    console.log('WebSocket connection closed:', event.code, event.reason);
+                    document.getElementById('status-dot').classList.remove('connected');
+                    document.getElementById('status-text').textContent = 'Disconnected';
+                    
+                    // Try to reconnect after 3 seconds
+                    setTimeout(connectWebSocket, 3000);
+                };
+                
+                ws.onerror = function(error) {
+                    console.error('WebSocket error:', error);
+                    document.getElementById('status-text').textContent = 'Connection Error';
+                };
+            } catch (error) {
+                console.error('Error creating WebSocket connection:', error);
+                document.getElementById('status-text').textContent = 'Connection Failed';
+            }
+        }
+
+        // Load existing requests on page load
+        async function loadExistingRequests() {
+            try {
+                const response = await fetch('/api/requests');
+                const data = await response.json();
+                requests = data.requests || [];
+                updateRequestsDisplay();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading existing requests:', error);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('total-requests').textContent = stats.total;
+            document.getElementById('get-requests').textContent = stats.get;
+            document.getElementById('post-requests').textContent = stats.post;
+            document.getElementById('multipart-requests').textContent = stats.multipart;
+        }
+
+        function formatJSON(obj) {
+            try {
+                if (typeof obj === 'string') {
+                    // Try to parse string as JSON first
+                    try {
+                        const parsed = JSON.parse(obj);
+                        return JSON.stringify(parsed, null, 2);
+                    } catch {
+                        // If it's not JSON, return as is
+                        return obj;
+                    }
+                }
+                return JSON.stringify(obj, null, 2);
+            } catch (e) {
+                return String(obj);
+            }
+        }
+
+        function getMethodClass(method) {
+            const methodMap = {
+                'GET': 'get',
+                'POST': 'post',
+                'PUT': 'put',
+                'DELETE': 'delete'
+            };
+            return methodMap[method] || 'get';
+        }
+
+        function formatTime(timestamp) {
+            return new Date(timestamp).toLocaleString();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function createRequestElement(request) {
+            const requestDiv = document.createElement('div');
+            requestDiv.className = 'request-item';
+            requestDiv.id = `request-${request.id}`;
+
+            const methodClass = getMethodClass(request.method);
+            const isMultipart = request.contentType && request.contentType.includes('multipart');
+
+            requestDiv.innerHTML = `
+                <div class="request-header" onclick="toggleRequest('${request.id}')">
+                    <div class="request-info">
+                        <span class="method-badge method-${methodClass}">${request.method}</span>
+                        <div class="request-details">
+                            <strong>${request.url}</strong><br>
+                            <small>${request.remoteAddr} • ${isMultipart ? 'Multipart' : request.contentType || 'No content type'}</small>
+                        </div>
+                    </div>
+                    <div class="request-time">${formatTime(request.timestamp)}</div>
+                </div>
+                <div class="request-content" id="content-${request.id}">
+                    ${createRequestContent(request)}
+                </div>
+            `;
+
+            return requestDiv;
+        }
+
+        function addRequest(request) {
+            // Add to beginning of array
+            requests.unshift(request);
+            
+            // Update stats
+            stats.total++;
+            if (request.method === 'GET') stats.get++;
+            if (request.method === 'POST') stats.post++;
+            if (request.contentType && request.contentType.includes('multipart')) stats.multipart++;
+            
+            updateRequestsDisplay();
+            updateStats();
+        }
+
+        function updateRequestsDisplay() {
+            const container = document.getElementById('requests-container');
+            
+            if (requests.length === 0) {
+                container.innerHTML = '<div class="empty-state"><h3>No requests yet</h3><p>Send a request to the webhook endpoints to see them appear here</p></div>';
+                return;
+            }
+            
+            container.innerHTML = requests.map(request => createRequestElement(request).outerHTML).join('');
+        }
+
+        function toggleRequest(id) {
+            const content = document.getElementById(`content-${id}`);
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        }
+
+        function clearRequests() {
+            requests = [];
+            stats = { total: 0, get: 0, post: 0, multipart: 0 };
+            updateRequestsDisplay();
+            updateStats();
+        }
+
+        // Helper to robustly parse raw multipart form-data string
+        function parseMultipartRaw(raw) {
+            const fields = {};
+            if (typeof raw !== 'string') return fields;
+            // Find the boundary from the first line
+            const boundaryMatch = raw.match(/^-+([A-Za-z0-9'()+_,\-./:=?]+)/m);
+            const boundary = boundaryMatch ? boundaryMatch[0] : null;
+            if (!boundary) return fields;
+            // Split on boundary, ignore first empty part
+            const parts = raw.split(boundary).slice(1);
+            for (const part of parts) {
+                // Skip closing boundary
+                if (part.trim() === '' || part.includes('--')) continue;
+                // Extract name
+                const nameMatch = part.match(/name="([^"]+)"/);
+                if (!nameMatch) continue;
+                const name = nameMatch[1];
+                // Value is after double newline (handles \r\n or \n)
+                const valueMatch = part.split(/\r?\n\r?\n/);
+                let value = valueMatch[1] ? valueMatch.slice(1).join('\n\n').trim() : '';
+                // Remove any trailing boundary markers
+                value = value.replace(/--+$/, '').trim();
+                fields[name] = value;
+            }
+            return fields;
+        }
+
+        function createRequestContent(request) {
+            let content = '';
+            // Debug logging
+            console.log('DEBUG: request.files', request.files);
+            console.log('DEBUG: request.body', request.body);
+            console.log('DEBUG: request.contentType', request.contentType);
+            
+            let bodyObj = request.body;
+            if (request.contentType && request.contentType.includes('multipart')) {
+                if (typeof bodyObj === 'string' && bodyObj.includes('Content-Disposition')) {
+                    bodyObj = parseMultipartRaw(bodyObj);
+                } else if (typeof bodyObj === 'string') {
+                    try {
+                        bodyObj = JSON.parse(bodyObj);
+                    } catch {
+                        bodyObj = { raw: bodyObj };
+                    }
+                }
+                // Debug logging
+                console.log('DEBUG: bodyObj', bodyObj);
+                let formRows = '';
+                if (bodyObj && typeof bodyObj === 'object' && Object.keys(bodyObj).length > 0) {
+                    formRows = Object.entries(bodyObj).map(([key, value]) => {
+                        let pretty = '';
+                        let fileLink = '';
+                        if (request.files && request.files.length > 0) {
+                            // Try to match file by field name or value
+                            const file = request.files.find(f => 
+                                f.filename === value || 
+                                f.filename === key || 
+                                key.startsWith('file_') ||
+                                key.toLowerCase().includes('file') ||
+                                key.toLowerCase().includes('pdf') ||
+                                key.toLowerCase().includes('document')
+                            );
+                            if (file) {
+                                fileLink = `<a href='${file.downloadURL}' class='download-btn' download>Download ${file.filename}</a>`;
+                            }
+                        }
+                        if (fileLink) {
+                            pretty = fileLink;
+                        } else if (typeof value === 'string') {
+                            try {
+                                const parsed = JSON.parse(value);
+                                pretty = `<div class='json-viewer'>${formatJSON(parsed)}</div>`;
+                            } catch {
+                                pretty = value;
+                            }
+                        } else if (typeof value === 'object') {
+                            pretty = `<div class='json-viewer'>${formatJSON(value)}</div>`;
+                        } else {
+                            pretty = String(value);
+                        }
+                        return `<tr><td><strong>${key}</strong></td><td>${pretty}</td></tr>`;
+                    }).join('');
+                }
+                // Note: Files are now displayed in a separate dedicated section below
+                if (formRows) {
+                    content += `
+                        <div class="content-section">
+                            <h4>Form Data</h4>
+                            <table class="headers-table">
+                                <thead>
+                                    <tr><th>Field</th><th>Value</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${formRows}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+                
+                // Add a dedicated Files section if files exist
+                if (request.files && request.files.length > 0) {
+                    content += `
+                        <div class="content-section">
+                            <h4>Uploaded Files</h4>
+                            <div class="files-grid">
+                                ${request.files.map(file => `
+                                    <div class="file-item">
+                                        <div class="file-info">
+                                            <strong>${file.filename}</strong>
+                                            <span class="file-type">${file.content_type || 'Unknown'}</span>
+                                            <span class="file-size">${formatFileSize(file.size)}</span>
+                                        </div>
+                                        <a href="${file.downloadURL}" class="download-btn" download>
+                                            Download
+                                        </a>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            } else {
+                // Regular request body (non-multipart)
+                if (request.body) {
+                    content += `
+                        <div class="content-section">
+                            <h4>Request Body</h4>
+                            <div class="json-viewer">${formatJSON(request.body)}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            return content;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            connectWebSocket();
+            loadExistingRequests();
+        });
+    </script>
+</body>
+</html>

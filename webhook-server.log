@@ -1,0 +1,303 @@
+2025/07/04 10:11:27 === Webhook Server Starting ===
+2025/07/04 10:11:27 Logging to both console and webhook-server.log
+2025/07/04 10:11:27 Starting webhook test server on port :8080
+2025/07/04 10:11:27 Webhook endpoint: http://localhost:8080/webhook
+2025/07/04 10:11:27 ThoughtSpot webhook endpoint: http://localhost:8080/webhook/thoughtspot
+2025/07/04 10:11:27 Web UI: http://localhost:8080
+2025/07/04 10:11:27 Health check: http://localhost:8080/health
+2025/07/04 10:12:03 === Webhook Request Received ===
+2025/07/04 10:12:03 Request ID: req-1751604123662269000
+2025/07/04 10:12:03 Method: POST
+2025/07/04 10:12:03 URL: /webhook
+2025/07/04 10:12:03 Remote Address: [::1]:57771
+2025/07/04 10:12:03 Content-Type: multipart/form-data; boundary=------------------------tc3HwIjBUzskCWfTnL1Esq
+2025/07/04 10:12:03 Headers:
+2025/07/04 10:12:03   User-Agent: curl/8.7.1
+2025/07/04 10:12:03   Accept: */*
+2025/07/04 10:12:03   Content-Length: 379
+2025/07/04 10:12:03   Content-Type: multipart/form-data; boundary=------------------------tc3HwIjBUzskCWfTnL1Esq
+2025/07/04 10:12:03 Content-Type check: 'multipart/form-data; boundary=------------------------tc3HwIjBUzskCWfTnL1Esq' (length: 76)
+2025/07/04 10:12:03 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:12:03 Processing multipart/form-data request...
+2025/07/04 10:12:03 Content-Type header: multipart/form-data; boundary=------------------------tc3HwIjBUzskCWfTnL1Esq
+2025/07/04 10:12:03 MultipartForm.Value keys: [json_data description]
+2025/07/04 10:12:03 MultipartForm.File keys: []
+2025/07/04 10:12:03 Form Values:
+2025/07/04 10:12:03   description: Test with JSON data only
+2025/07/04 10:12:03   json_data: {"event":"test_event","data":{"message":"JSON only test","timestamp":"2025-07-04T04:42:03Z"}}
+2025/07/04 10:12:03 Uploaded Files:
+2025/07/04 10:12:03 Multipart processing completed - Files count: 0
+2025/07/04 10:12:03 === End Webhook Request ===
+2025/07/04 10:12:03 Final webhookReq.Body: map[description:Test with JSON data only json_data:{"event":"test_event","data":{"message":"JSON only test","timestamp":"2025-07-04T04:42:03Z"}}]
+2025/07/04 10:12:03 Final webhookReq.Files: []
+2025/07/04 10:12:03 Broadcasting request - Body: map[description:Test with JSON data only json_data:{"event":"test_event","data":{"message":"JSON only test","timestamp":"2025-07-04T04:42:03Z"}}]
+2025/07/04 10:12:03 Broadcasting request - Files: []
+2025/07/04 10:13:24 === Webhook Server Starting ===
+2025/07/04 10:13:24 Logging to both console and webhook-server.log
+2025/07/04 10:13:24 Starting webhook test server on port :8080
+2025/07/04 10:13:24 Webhook endpoint: http://localhost:8080/webhook
+2025/07/04 10:13:24 ThoughtSpot webhook endpoint: http://localhost:8080/webhook/thoughtspot
+2025/07/04 10:13:24 Web UI: http://localhost:8080
+2025/07/04 10:13:24 Health check: http://localhost:8080/health
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211057050000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58228
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------MP6aT4ZhXXlAcLC7GE8zEt
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   Content-Length: 379
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------MP6aT4ZhXXlAcLC7GE8zEt
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------MP6aT4ZhXXlAcLC7GE8zEt' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------MP6aT4ZhXXlAcLC7GE8zEt
+2025/07/04 10:13:31 MultipartForm.Value keys: [json_data description]
+2025/07/04 10:13:31 MultipartForm.File keys: []
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   json_data: {"event":"test_event","data":{"message":"JSON only test","timestamp":"2025-07-04T04:43:31Z"}}
+2025/07/04 10:13:31   description: Test with JSON data only
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31 Multipart processing completed - Files count: 0
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with JSON data only json_data:{"event":"test_event","data":{"message":"JSON only test","timestamp":"2025-07-04T04:43:31Z"}}]
+2025/07/04 10:13:31 Final webhookReq.Files: []
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with JSON data only json_data:{"event":"test_event","data":{"message":"JSON only test","timestamp":"2025-07-04T04:43:31Z"}}]
+2025/07/04 10:13:31 Broadcasting request - Files: []
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211077419000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58229
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------9l7yXZMA8s64YmpGFpdglS
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31   Content-Length: 357
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------9l7yXZMA8s64YmpGFpdglS
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------9l7yXZMA8s64YmpGFpdglS' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------9l7yXZMA8s64YmpGFpdglS
+2025/07/04 10:13:31 MultipartForm.Value keys: [description]
+2025/07/04 10:13:31 MultipartForm.File keys: [file_pdf]
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   description: Test with PDF file only
+2025/07/04 10:13:31   file_pdf: FILE_UPLOADED_file_pdf
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31   Field: file_pdf
+2025/07/04 10:13:31     Filename: sample.pdf
+2025/07/04 10:13:31     Content-Type: application/pdf
+2025/07/04 10:13:31     Size: 19 bytes
+2025/07/04 10:13:31     File processed successfully
+2025/07/04 10:13:31 Multipart processing completed - Files count: 1
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with PDF file only file_pdf:FILE_UPLOADED_file_pdf]
+2025/07/04 10:13:31 Final webhookReq.Files: [{Filename:sample.pdf ContentType:application/pdf Size:19 Content: DownloadURL:/download/sample.pdf}]
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with PDF file only file_pdf:FILE_UPLOADED_file_pdf]
+2025/07/04 10:13:31 Broadcasting request - Files: [{Filename:sample.pdf ContentType:application/pdf Size:19 Content: DownloadURL:/download/sample.pdf}]
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211104023000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58230
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------WpZsFpUnm26iC77XfaoKJm
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------WpZsFpUnm26iC77XfaoKJm
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31   Content-Length: 351
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------WpZsFpUnm26iC77XfaoKJm' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------WpZsFpUnm26iC77XfaoKJm
+2025/07/04 10:13:31 MultipartForm.Value keys: [description]
+2025/07/04 10:13:31 MultipartForm.File keys: [file_png]
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   description: Test with PNG file only
+2025/07/04 10:13:31   file_png: FILE_UPLOADED_file_png
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31   Field: file_png
+2025/07/04 10:13:31     Filename: sample.png
+2025/07/04 10:13:31     Content-Type: image/png
+2025/07/04 10:13:31     Size: 19 bytes
+2025/07/04 10:13:31     File processed successfully
+2025/07/04 10:13:31 Multipart processing completed - Files count: 1
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with PNG file only file_png:FILE_UPLOADED_file_png]
+2025/07/04 10:13:31 Final webhookReq.Files: [{Filename:sample.png ContentType:image/png Size:19 Content: DownloadURL:/download/sample.png}]
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with PNG file only file_png:FILE_UPLOADED_file_png]
+2025/07/04 10:13:31 Broadcasting request - Files: [{Filename:sample.png ContentType:image/png Size:19 Content: DownloadURL:/download/sample.png}]
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211122274000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58231
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------XjpPgCeSCCLznsgCCUKlA6
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   Content-Length: 585
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------XjpPgCeSCCLznsgCCUKlA6
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------XjpPgCeSCCLznsgCCUKlA6' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------XjpPgCeSCCLznsgCCUKlA6
+2025/07/04 10:13:31 MultipartForm.Value keys: [json_data description]
+2025/07/04 10:13:31 MultipartForm.File keys: [file_pdf]
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   json_data: {"event":"pdf_json_test","data":{"message":"PDF + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"pdf"}}
+2025/07/04 10:13:31   description: Test with PDF file and JSON data
+2025/07/04 10:13:31   file_pdf: FILE_UPLOADED_file_pdf
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31   Field: file_pdf
+2025/07/04 10:13:31     Filename: sample.pdf
+2025/07/04 10:13:31     Content-Type: application/pdf
+2025/07/04 10:13:31     Size: 19 bytes
+2025/07/04 10:13:31     File processed successfully
+2025/07/04 10:13:31 Multipart processing completed - Files count: 1
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with PDF file and JSON data file_pdf:FILE_UPLOADED_file_pdf json_data:{"event":"pdf_json_test","data":{"message":"PDF + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"pdf"}}]
+2025/07/04 10:13:31 Final webhookReq.Files: [{Filename:sample.pdf ContentType:application/pdf Size:19 Content: DownloadURL:/download/sample.pdf}]
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with PDF file and JSON data file_pdf:FILE_UPLOADED_file_pdf json_data:{"event":"pdf_json_test","data":{"message":"PDF + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"pdf"}}]
+2025/07/04 10:13:31 Broadcasting request - Files: [{Filename:sample.pdf ContentType:application/pdf Size:19 Content: DownloadURL:/download/sample.pdf}]
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211158487000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58232
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------EmB7yMbCfWvScMFqishoFq
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31   Content-Length: 579
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------EmB7yMbCfWvScMFqishoFq
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------EmB7yMbCfWvScMFqishoFq' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------EmB7yMbCfWvScMFqishoFq
+2025/07/04 10:13:31 MultipartForm.Value keys: [description json_data]
+2025/07/04 10:13:31 MultipartForm.File keys: [file_png]
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   json_data: {"event":"png_json_test","data":{"message":"PNG + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"png"}}
+2025/07/04 10:13:31   description: Test with PNG file and JSON data
+2025/07/04 10:13:31   file_png: FILE_UPLOADED_file_png
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31   Field: file_png
+2025/07/04 10:13:31     Filename: sample.png
+2025/07/04 10:13:31     Content-Type: image/png
+2025/07/04 10:13:31     Size: 19 bytes
+2025/07/04 10:13:31     File processed successfully
+2025/07/04 10:13:31 Multipart processing completed - Files count: 1
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with PNG file and JSON data file_png:FILE_UPLOADED_file_png json_data:{"event":"png_json_test","data":{"message":"PNG + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"png"}}]
+2025/07/04 10:13:31 Final webhookReq.Files: [{Filename:sample.png ContentType:image/png Size:19 Content: DownloadURL:/download/sample.png}]
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with PNG file and JSON data file_png:FILE_UPLOADED_file_png json_data:{"event":"png_json_test","data":{"message":"PNG + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"png"}}]
+2025/07/04 10:13:31 Broadcasting request - Files: [{Filename:sample.png ContentType:image/png Size:19 Content: DownloadURL:/download/sample.png}]
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211183242000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58233
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------UzGleiSxQzMVIVXAzVLXbS
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   Content-Length: 785
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------UzGleiSxQzMVIVXAzVLXbS
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------UzGleiSxQzMVIVXAzVLXbS' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------UzGleiSxQzMVIVXAzVLXbS
+2025/07/04 10:13:31 MultipartForm.Value keys: [json_data description]
+2025/07/04 10:13:31 MultipartForm.File keys: [file_pdf file_png]
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   json_data: {"event":"pdf_png_json_test","data":{"message":"PDF + PNG + JSON test","timestamp":"2025-07-04T04:43:31Z","file_types":["pdf","png"]}}
+2025/07/04 10:13:31   description: Test with PDF file, PNG file, and JSON data
+2025/07/04 10:13:31   file_pdf: FILE_UPLOADED_file_pdf
+2025/07/04 10:13:31   file_png: FILE_UPLOADED_file_png
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31   Field: file_pdf
+2025/07/04 10:13:31     Filename: sample.pdf
+2025/07/04 10:13:31     Content-Type: application/pdf
+2025/07/04 10:13:31     Size: 19 bytes
+2025/07/04 10:13:31     File processed successfully
+2025/07/04 10:13:31   Field: file_png
+2025/07/04 10:13:31     Filename: sample.png
+2025/07/04 10:13:31     Content-Type: image/png
+2025/07/04 10:13:31     Size: 19 bytes
+2025/07/04 10:13:31     Skipping file - different type already exists (first: application/pdf, current: image/png)
+2025/07/04 10:13:31 Multipart processing completed - Files count: 1
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with PDF file, PNG file, and JSON data file_pdf:FILE_UPLOADED_file_pdf file_png:FILE_UPLOADED_file_png json_data:{"event":"pdf_png_json_test","data":{"message":"PDF + PNG + JSON test","timestamp":"2025-07-04T04:43:31Z","file_types":["pdf","png"]}}]
+2025/07/04 10:13:31 Final webhookReq.Files: [{Filename:sample.pdf ContentType:application/pdf Size:19 Content: DownloadURL:/download/sample.pdf}]
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with PDF file, PNG file, and JSON data file_pdf:FILE_UPLOADED_file_pdf file_png:FILE_UPLOADED_file_png json_data:{"event":"pdf_png_json_test","data":{"message":"PDF + PNG + JSON test","timestamp":"2025-07-04T04:43:31Z","file_types":["pdf","png"]}}]
+2025/07/04 10:13:31 Broadcasting request - Files: [{Filename:sample.pdf ContentType:application/pdf Size:19 Content: DownloadURL:/download/sample.pdf}]
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211217794000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58234
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------9lAelnY0OpJWkNehrEWAil
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31   Content-Length: 595
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------9lAelnY0OpJWkNehrEWAil
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------9lAelnY0OpJWkNehrEWAil' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------9lAelnY0OpJWkNehrEWAil
+2025/07/04 10:13:31 MultipartForm.Value keys: [json_data description]
+2025/07/04 10:13:31 MultipartForm.File keys: [file_csv]
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   json_data: {"event":"csv_json_test","data":{"message":"CSV + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"csv"}}
+2025/07/04 10:13:31   description: Test with CSV file and JSON data
+2025/07/04 10:13:31   file_csv: FILE_UPLOADED_file_csv
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31   Field: file_csv
+2025/07/04 10:13:31     Filename: sample.csv
+2025/07/04 10:13:31     Content-Type: application/octet-stream
+2025/07/04 10:13:31     Size: 20 bytes
+2025/07/04 10:13:31     File processed successfully
+2025/07/04 10:13:31 Multipart processing completed - Files count: 1
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with CSV file and JSON data file_csv:FILE_UPLOADED_file_csv json_data:{"event":"csv_json_test","data":{"message":"CSV + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"csv"}}]
+2025/07/04 10:13:31 Final webhookReq.Files: [{Filename:sample.csv ContentType:application/octet-stream Size:20 Content: DownloadURL:/download/sample.csv}]
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with CSV file and JSON data file_csv:FILE_UPLOADED_file_csv json_data:{"event":"csv_json_test","data":{"message":"CSV + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"csv"}}]
+2025/07/04 10:13:31 Broadcasting request - Files: [{Filename:sample.csv ContentType:application/octet-stream Size:20 Content: DownloadURL:/download/sample.csv}]
+2025/07/04 10:13:31 === Webhook Request Received ===
+2025/07/04 10:13:31 Request ID: req-1751604211237628000
+2025/07/04 10:13:31 Method: POST
+2025/07/04 10:13:31 URL: /webhook
+2025/07/04 10:13:31 Remote Address: [::1]:58235
+2025/07/04 10:13:31 Content-Type: multipart/form-data; boundary=------------------------T5lmDCFnAt0jzgDvAsCZIU
+2025/07/04 10:13:31 Headers:
+2025/07/04 10:13:31   Accept: */*
+2025/07/04 10:13:31   Content-Length: 606
+2025/07/04 10:13:31   Content-Type: multipart/form-data; boundary=------------------------T5lmDCFnAt0jzgDvAsCZIU
+2025/07/04 10:13:31   User-Agent: curl/8.7.1
+2025/07/04 10:13:31 Content-Type check: 'multipart/form-data; boundary=------------------------T5lmDCFnAt0jzgDvAsCZIU' (length: 76)
+2025/07/04 10:13:31 Content-Type prefix check: 'multipart/form-data;' == 'multipart/form-data'
+2025/07/04 10:13:31 Processing multipart/form-data request...
+2025/07/04 10:13:31 Content-Type header: multipart/form-data; boundary=------------------------T5lmDCFnAt0jzgDvAsCZIU
+2025/07/04 10:13:31 MultipartForm.Value keys: [json_data description]
+2025/07/04 10:13:31 MultipartForm.File keys: [file_excel]
+2025/07/04 10:13:31 Form Values:
+2025/07/04 10:13:31   json_data: {"event":"excel_json_test","data":{"message":"Excel + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"xlsx"}}
+2025/07/04 10:13:31   description: Test with Excel file and JSON data
+2025/07/04 10:13:31   file_excel: FILE_UPLOADED_file_excel
+2025/07/04 10:13:31 Uploaded Files:
+2025/07/04 10:13:31   Field: file_excel
+2025/07/04 10:13:31     Filename: sample.xlsx
+2025/07/04 10:13:31     Content-Type: application/octet-stream
+2025/07/04 10:13:31     Size: 21 bytes
+2025/07/04 10:13:31     File processed successfully
+2025/07/04 10:13:31 Multipart processing completed - Files count: 1
+2025/07/04 10:13:31 === End Webhook Request ===
+2025/07/04 10:13:31 Final webhookReq.Body: map[description:Test with Excel file and JSON data file_excel:FILE_UPLOADED_file_excel json_data:{"event":"excel_json_test","data":{"message":"Excel + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"xlsx"}}]
+2025/07/04 10:13:31 Final webhookReq.Files: [{Filename:sample.xlsx ContentType:application/octet-stream Size:21 Content: DownloadURL:/download/sample.xlsx}]
+2025/07/04 10:13:31 Broadcasting request - Body: map[description:Test with Excel file and JSON data file_excel:FILE_UPLOADED_file_excel json_data:{"event":"excel_json_test","data":{"message":"Excel + JSON test","timestamp":"2025-07-04T04:43:31Z","file_type":"xlsx"}}]
+2025/07/04 10:13:31 Broadcasting request - Files: [{Filename:sample.xlsx ContentType:application/octet-stream Size:21 Content: DownloadURL:/download/sample.xlsx}]
