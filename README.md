@@ -65,10 +65,12 @@ go run cmd/webhook-test-server.go
 
 The server will start on `http://localhost:8080`
 
+**Note**: The web UI is available at `http://localhost:8080/ui` (not at the root path)
+
 ### Access Points
 
 #### Local Development
-- **Web UI**: http://localhost:8080
+- **Web UI**: http://localhost:8080/ui
 - **Webhook Endpoint**: http://localhost:8080/webhook
 - **ThoughtSpot Endpoint**: http://localhost:8080/webhook/thoughtspot
 - **Health Check**: http://localhost:8080/health
