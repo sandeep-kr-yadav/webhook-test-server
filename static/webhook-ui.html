@@ -551,7 +551,9 @@
             <a href="http://localhost:8080/webhook" target="_blank" class="btn btn-primary">Webhook Endpoint</a>
             <a href="http://localhost:8080/webhook/thoughtspot" target="_blank" class="btn btn-secondary">ThoughtSpot Endpoint</a>
             <a href="http://localhost:8080/health" target="_blank" class="btn btn-success">Health Check</a>
+            <button class="btn btn-primary" onclick="testWebhookEndpoint()">Test Webhook Endpoint</button>
             <button class="btn btn-danger" onclick="clearRequests()">Clear All</button>
+            <button class="btn btn-danger" onclick="deleteAllRequests()">Delete All</button>
         </div>
 
         <div class="requests-container" id="requests-container">
@@ -742,6 +744,51 @@
             stats = { total: 0, get: 0, post: 0, multipart: 0 };
             updateRequestsDisplay();
             updateStats();
+        }
+
+        function deleteAllRequests() {
+            if (confirm('Are you sure you want to delete all requests? This action cannot be undone.')) {
+                // Clear the requests array and stats
+                requests = [];
+                stats = { total: 0, get: 0, post: 0, multipart: 0 };
+                updateRequestsDisplay();
+                updateStats();
+                
+                // TODO: Add server-side deletion logic here
+                console.log('Delete All button clicked - server-side deletion logic to be implemented');
+            }
+        }
+
+        function testWebhookEndpoint() {
+            // Create a dummy request for testing
+            const dummyRequest = {
+                id: 'test-' + Date.now(),
+                method: 'POST',
+                url: '/webhook',
+                remoteAddr: '127.0.0.1',
+                contentType: 'application/json',
+                timestamp: new Date().toISOString(),
+                body: {
+                    event: 'test_event',
+                    timestamp: new Date().toISOString(),
+                    data: {
+                        message: 'This is a test webhook payload',
+                        test_id: Math.random().toString(36).substr(2, 9),
+                        user: 'test_user',
+                        action: 'test_action'
+                    }
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'TestWebhookClient/1.0',
+                    'X-Test-Header': 'test-value',
+                    'Authorization': 'Bearer test-token-12345'
+                }
+            };
+            
+            // Add the dummy request to the display
+            addRequest(dummyRequest);
+            console.log('Test webhook request added:', dummyRequest);
         }
 
         // Helper to robustly parse raw multipart form-data string
