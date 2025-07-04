@@ -100,111 +100,6 @@ var (
 			return true // Allow all origins for development
 		},
 	}
-
-	// Embedded HTML UI
-	webhookUIHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webhook Test Server</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
-        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h1 { color: #333; margin-bottom: 10px; }
-        .status { text-align: center; margin: 20px 0; padding: 15px; border-radius: 5px; }
-        .status.connected { background: #d4edda; color: #155724; }
-        .status.disconnected { background: #f8d7da; color: #721c24; }
-        .requests { margin-top: 30px; }
-        .request { border: 1px solid #ddd; margin: 10px 0; padding: 15px; border-radius: 5px; }
-        .request h3 { margin: 0 0 10px 0; color: #333; }
-        .request pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
-        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
-        .btn-primary { background: #007bff; color: white; }
-        .btn-success { background: #28a745; color: white; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🚀 Webhook Test Server</h1>
-            <p>Real-time webhook request monitoring</p>
-        </div>
-        
-        <div id="status" class="status disconnected">
-            <strong>Status:</strong> <span id="statusText">Disconnected</span>
-        </div>
-        
-        <div style="text-align: center; margin: 20px 0;">
-            <button class="btn btn-primary" onclick="clearRequests()">Clear Requests</button>
-            <button class="btn btn-success" onclick="testWebhook()">Test Webhook</button>
-        </div>
-        
-        <div class="requests">
-            <h2>📨 Recent Requests</h2>
-            <div id="requestsList"></div>
-        </div>
-    </div>
-
-    <script>
-        let ws = null;
-        let requests = [];
-        
-        function connect() {
-            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = protocol + '//' + window.location.host + '/ws';
-            
-            ws = new WebSocket(wsUrl);
-            
-            ws.onopen = function() {
-                document.getElementById('status').className = 'status connected';
-                document.getElementById('statusText').textContent = 'Connected';
-            };
-            
-            ws.onclose = function() {
-                document.getElementById('status').className = 'status disconnected';
-                document.getElementById('statusText').textContent = 'Disconnected';
-                setTimeout(connect, 3000);
-            };
-            
-            ws.onmessage = function(event) {
-                const request = JSON.parse(event.data);
-                requests.unshift(request);
-                if (requests.length > 50) requests = requests.slice(0, 50);
-                updateRequestsList();
-            };
-        }
-        
-        function updateRequestsList() {
-            const container = document.getElementById('requestsList');
-            container.innerHTML = requests.map((req, index) => 
-                '<div class="request">' +
-                '<h3>Request #' + (index + 1) + ' - ' + req.method + ' ' + req.url + '</h3>' +
-                '<p><strong>Time:</strong> ' + new Date(req.timestamp).toLocaleString() + '</p>' +
-                '<p><strong>Remote:</strong> ' + req.remoteAddr + '</p>' +
-                '<pre>' + JSON.stringify(req, null, 2) + '</pre>' +
-                '</div>'
-            ).join('');
-        }
-        
-        function clearRequests() {
-            requests = [];
-            updateRequestsList();
-        }
-        
-        function testWebhook() {
-            fetch('/webhook', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ test: 'data', message: 'Hello from UI!' })
-            });
-        }
-        
-        connect();
-    </script>
-</body>
-</html>`
 )
 
 // Helper function to get keys from a map
@@ -280,10 +175,10 @@ func main() {
 func handleUI(w http.ResponseWriter, r *http.Request) {
 	log.Printf("UI request received: %s", r.URL.Path)
 	if r.URL.Path == "/ui" {
-		log.Printf("Serving embedded webhook UI")
+		log.Printf("Serving static webhook UI")
 		w.Header().Set("Content-Type", "text/html")
 		w.Header().Set("X-Go-App", "webhook-server")
-		w.Write([]byte(webhookUIHTML))
+		http.ServeFile(w, r, "static/webhook-ui.html")
 		return
 	}
 	log.Printf("Path not found: %s", r.URL.Path)
