@@ -2,7 +2,39 @@
 
 This guide will help you deploy your webhook test server to various free hosting platforms.
 
-## Option 1: Railway (Recommended)
+## Option 1: Render (Recommended)
+
+Render offers a generous free tier and is perfect for Go applications.
+
+### Steps:
+
+1. **Sign up for Render**
+   - Go to [render.com](https://render.com)
+   - Sign up with your GitHub account
+
+2. **Create a new Web Service**
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Choose your `webhook-test-server` repository
+
+3. **Configure the service**
+   - **Name**: `webhook-test-server` (or your preferred name)
+   - **Environment**: `Docker`
+   - **Region**: Choose closest to you
+   - **Branch**: `main`
+   - **Build Command**: Leave empty (uses Dockerfile)
+   - **Start Command**: Leave empty (uses Dockerfile)
+
+4. **Deploy**
+   - Click "Create Web Service"
+   - Render will build and deploy your application
+
+5. **Access your application**
+   - Render will provide you with a URL like `https://your-app-name.onrender.com`
+   - Your webhook endpoint will be: `https://your-app-name.onrender.com/webhook`
+   - Web UI: `https://your-app-name.onrender.com/ui`
+
+## Option 2: Railway
 
 Railway offers a generous free tier and is perfect for Go applications.
 
@@ -21,37 +53,7 @@ Railway offers a generous free tier and is perfect for Go applications.
 3. **Access your application**
    - Railway will provide you with a URL like `https://your-app-name.railway.app`
    - Your webhook endpoint will be: `https://your-app-name.railway.app/webhook`
-   - Web UI: `https://your-app-name.railway.app`
-
-### Railway Configuration
-The `railway.json` file is already configured for optimal deployment.
-
-## Option 2: Render
-
-Render is another excellent free option.
-
-### Steps:
-
-1. **Sign up for Render**
-   - Go to [render.com](https://render.com)
-   - Sign up with your GitHub account
-
-2. **Create a new Web Service**
-   - Click "New +" → "Web Service"
-   - Connect your GitHub repository
-   - Choose the `webhook-test-server` repository
-
-3. **Configure the service**
-   - **Name**: `webhook-test-server` (or your preferred name)
-   - **Environment**: `Docker`
-   - **Region**: Choose closest to you
-   - **Branch**: `main`
-   - **Build Command**: Leave empty (uses Dockerfile)
-   - **Start Command**: Leave empty (uses Dockerfile)
-
-4. **Deploy**
-   - Click "Create Web Service"
-   - Render will build and deploy your application
+   - Web UI: `https://your-app-name.railway.app/ui`
 
 ## Option 3: Fly.io
 
@@ -137,7 +139,7 @@ curl -X POST https://your-app-url/webhook \
 The application supports these environment variables:
 
 - `PORT`: Server port (default: 8080)
-- Railway/Render/Fly.io will automatically set this
+- Most hosting platforms will automatically set this
 
 ## Monitoring
 
@@ -155,16 +157,16 @@ The application supports these environment variables:
 4. **WebSocket**: Some platforms may require additional configuration for WebSocket support
 
 ### Logs:
-- Railway: View logs in the Railway dashboard
 - Render: View logs in the Render dashboard
+- Railway: View logs in the Railway dashboard
 - Fly.io: `fly logs`
 - Heroku: `heroku logs --tail`
 
 ## Cost Considerations
 
 All platforms mentioned offer free tiers:
-- **Railway**: $5/month after free tier (very generous)
 - **Render**: $7/month after free tier
+- **Railway**: $5/month after free tier (very generous)
 - **Fly.io**: $1.94/month after free tier
 - **Heroku**: $7/month after free tier
 
