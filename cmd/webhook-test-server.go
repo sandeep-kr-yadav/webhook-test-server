@@ -158,7 +158,15 @@ func main() {
 
 	log.Printf("Server listening on %s", port)
 	log.Printf("Ready to accept connections...")
-	if err := http.ListenAndServe("0.0.0.0"+port, mux); err != nil {
+
+	// Try to bind to all interfaces explicitly
+	server := &http.Server{
+		Addr:    "0.0.0.0" + port,
+		Handler: mux,
+	}
+
+	log.Printf("Starting HTTP server on 0.0.0.0%s", port)
+	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("Server failed to start:", err)
 	}
 }
@@ -829,5 +837,6 @@ func handleTest(w http.ResponseWriter, r *http.Request) {
 func handlePing(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Ping endpoint request received from %s", r.RemoteAddr)
 	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte("PONG - Your Go app is responding!"))
+	w.Header().Set("X-Go-App", "webhook-server")
+	w.Write([]byte("PONG - Your Go app is responding! This proves Railway is routing to your container."))
 }
