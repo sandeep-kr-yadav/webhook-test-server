@@ -121,19 +121,11 @@ func getFileKeys(m map[string][]*multipart.FileHeader) []string {
 }
 
 func main() {
-	// Set up logging to both file and console
-	logFile, err := os.OpenFile("webhook-server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatal("Failed to open log file:", err)
-	}
-	defer logFile.Close()
-
-	// Create multi-writer to log to both file and console
-	multiWriter := io.MultiWriter(os.Stdout, logFile)
-	log.SetOutput(multiWriter)
+	// Set up logging to console only for containerized environments
+	log.SetOutput(os.Stdout)
 
 	log.Printf("=== Webhook Server Starting ===")
-	log.Printf("Logging to both console and webhook-server.log")
+	log.Printf("Logging to console")
 
 	// Create a new mux to handle routing properly
 	mux := http.NewServeMux()
@@ -154,10 +146,10 @@ func main() {
 	port = ":" + port
 
 	log.Printf("Starting webhook test server on port %s", port)
-	log.Printf("Webhook endpoint: http://localhost%s/webhook", port)
-	log.Printf("ThoughtSpot webhook endpoint: http://localhost%s/webhook/thoughtspot", port)
-	log.Printf("Web UI: http://localhost%s", port)
-	log.Printf("Health check: http://localhost%s/health", port)
+	log.Printf("Webhook endpoint: http://0.0.0.0%s/webhook", port)
+	log.Printf("ThoughtSpot webhook endpoint: http://0.0.0.0%s/webhook/thoughtspot", port)
+	log.Printf("Web UI: http://0.0.0.0%s", port)
+	log.Printf("Health check: http://0.0.0.0%s/health", port)
 
 	if err := http.ListenAndServe(port, mux); err != nil {
 		log.Fatal(err)
