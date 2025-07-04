@@ -138,6 +138,7 @@ func main() {
 	mux.HandleFunc("/ws", handleWebSocket)
 	mux.HandleFunc("/download/", handleFileDownload)
 	mux.HandleFunc("/test", handleTest)
+	mux.HandleFunc("/ping", handlePing)
 
 	// Get port from environment variable or default to 8080
 	port := os.Getenv("PORT")
@@ -146,6 +147,9 @@ func main() {
 	}
 	port = ":" + port
 
+	// Also try to bind to all interfaces explicitly
+	log.Printf("Attempting to bind to port %s on all interfaces", port)
+
 	log.Printf("Starting webhook test server on port %s", port)
 	log.Printf("Webhook endpoint: http://0.0.0.0%s/webhook", port)
 	log.Printf("ThoughtSpot webhook endpoint: http://0.0.0.0%s/webhook/thoughtspot", port)
@@ -153,8 +157,9 @@ func main() {
 	log.Printf("Health check: http://0.0.0.0%s/health", port)
 
 	log.Printf("Server listening on %s", port)
-	if err := http.ListenAndServe(port, mux); err != nil {
-		log.Fatal(err)
+	log.Printf("Ready to accept connections...")
+	if err := http.ListenAndServe("0.0.0.0"+port, mux); err != nil {
+		log.Fatal("Server failed to start:", err)
 	}
 }
 
@@ -801,4 +806,10 @@ func handleTest(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Test endpoint request received")
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write([]byte("GO APPLICATION IS RUNNING! If you see this, your Go app is working correctly."))
+}
+
+func handlePing(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Ping endpoint request received from %s", r.RemoteAddr)
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte("PONG - Your Go app is responding!"))
 }
