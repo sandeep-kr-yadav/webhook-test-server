@@ -11,6 +11,14 @@ A comprehensive webhook testing environment with real-time monitoring, file uplo
 - **Comprehensive test cases** for all combinations
 - **File download functionality** for uploaded files
 - **Detailed logging** for debugging
+- **Delete All functionality** to clear all requests from server memory
+- **Test Webhook Endpoint** button to create dummy requests for testing
+
+## Live Demo
+
+🚀 **Deployed Version Available**: [https://webhook-test-server-263n.onrender.com/ui](https://webhook-test-server-263n.onrender.com/ui)
+
+You can test the webhook environment directly in your browser without setting up anything locally. The deployed version includes all the latest features including the new Delete All and Test Webhook Endpoint buttons.
 
 ## Project Structure
 
@@ -59,10 +67,17 @@ The server will start on `http://localhost:8080`
 
 ### Access Points
 
+#### Local Development
 - **Web UI**: http://localhost:8080
 - **Webhook Endpoint**: http://localhost:8080/webhook
 - **ThoughtSpot Endpoint**: http://localhost:8080/webhook/thoughtspot
 - **Health Check**: http://localhost:8080/health
+
+#### Deployed Version
+- **Web UI**: https://webhook-test-server-263n.onrender.com/ui
+- **Webhook Endpoint**: https://webhook-test-server-263n.onrender.com/webhook
+- **ThoughtSpot Endpoint**: https://webhook-test-server-263n.onrender.com/webhook/thoughtspot
+- **Health Check**: https://webhook-test-server-263n.onrender.com/health
 
 ## Testing
 
