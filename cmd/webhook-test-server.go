@@ -934,8 +934,12 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 func handleRoot(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Root endpoint request received: %s", r.URL.Path)
 	if r.URL.Path == "/" {
-		// Redirect to the UI
-		http.Redirect(w, r, "/ui", http.StatusFound)
+		// Return a simple text response to test if Railway routes to our app
+		log.Printf("Serving root response")
+		w.Header().Set("Content-Type", "text/plain")
+		w.Header().Set("X-Go-App", "webhook-server")
+		w.Header().Set("X-Request-Path", r.URL.Path)
+		w.Write([]byte("GO APPLICATION ROOT - If you see this, Railway is routing to your Go app!"))
 		return
 	}
 	http.NotFound(w, r)
