@@ -65,18 +65,18 @@ go run cmd/webhook-test-server.go
 
 The server will start on `http://localhost:8080`
 
-**Note**: The web UI is available at `http://localhost:8080/ui` (not at the root path)
+**Note**: The web UI is now available directly at the root URL `http://localhost:8080`
 
 ### Access Points
 
 #### Local Development
-- **Web UI**: http://localhost:8080/ui
+- **Web UI**: http://localhost:8080
 - **Webhook Endpoint**: http://localhost:8080/webhook
 - **ThoughtSpot Endpoint**: http://localhost:8080/webhook/thoughtspot
 - **Health Check**: http://localhost:8080/health
 
 #### Deployed Version
-- **Web UI**: https://webhook-test-server-263n.onrender.com/ui
+- **Web UI**: https://webhook-test-server-263n.onrender.com
 - **Webhook Endpoint**: https://webhook-test-server-263n.onrender.com/webhook
 - **ThoughtSpot Endpoint**: https://webhook-test-server-263n.onrender.com/webhook/thoughtspot
 - **Health Check**: https://webhook-test-server-263n.onrender.com/health

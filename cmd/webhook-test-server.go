@@ -131,7 +131,6 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", handleRoot)
-	mux.HandleFunc("/ui", handleUI)
 	mux.HandleFunc("/webhook", handleWebhook)
 	mux.HandleFunc("/webhook/thoughtspot", handleThoughtSpotWebhook)
 	mux.HandleFunc("/health", handleHealth)
@@ -171,19 +170,6 @@ func main() {
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("Server failed to start:", err)
 	}
-}
-
-func handleUI(w http.ResponseWriter, r *http.Request) {
-	log.Printf("UI request received: %s", r.URL.Path)
-	if r.URL.Path == "/ui" {
-		log.Printf("Serving static webhook UI")
-		w.Header().Set("Content-Type", "text/html")
-		w.Header().Set("X-Go-App", "webhook-server")
-		http.ServeFile(w, r, "static/webhook-ui.html")
-		return
-	}
-	log.Printf("Path not found: %s", r.URL.Path)
-	http.NotFound(w, r)
 }
 
 func handleFileDownload(w http.ResponseWriter, r *http.Request) {
@@ -880,12 +866,11 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 func handleRoot(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Root endpoint request received: %s", r.URL.Path)
 	if r.URL.Path == "/" {
-		// Return a simple text response
-		log.Printf("Serving root response")
-		w.Header().Set("Content-Type", "text/plain")
+		// Serve the web UI at root
+		log.Printf("Serving webhook UI at root")
+		w.Header().Set("Content-Type", "text/html")
 		w.Header().Set("X-Go-App", "webhook-server")
-		w.Header().Set("X-Request-Path", r.URL.Path)
-		w.Write([]byte("Webhook Test Server - Root endpoint"))
+		http.ServeFile(w, r, "static/webhook-ui.html")
 		return
 	}
 	http.NotFound(w, r)
