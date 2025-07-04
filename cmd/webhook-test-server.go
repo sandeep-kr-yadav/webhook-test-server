@@ -137,6 +137,7 @@ func main() {
 	mux.HandleFunc("/api/requests", handleAPIRequests)
 	mux.HandleFunc("/ws", handleWebSocket)
 	mux.HandleFunc("/download/", handleFileDownload)
+	mux.HandleFunc("/test", handleTest)
 
 	// Get port from environment variable or default to 8080
 	port := os.Getenv("PORT")
@@ -784,12 +785,20 @@ startxref
 }
 
 func handleHealth(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Health check request received")
 	response := map[string]interface{}{
 		"service":   "webhook-test-server",
 		"status":    "healthy",
 		"timestamp": time.Now().Format(time.RFC3339),
+		"message":   "This is the actual Go application running!",
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
+}
+
+func handleTest(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Test endpoint request received")
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte("GO APPLICATION IS RUNNING! If you see this, your Go app is working correctly."))
 }
